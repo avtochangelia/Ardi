@@ -19,25 +19,6 @@ public class ApiException : Exception
         HttpStatusCode = httpStatusCode;
     }
 
-    public ApiException(HttpStatusCode httpStatusCode, string message, string detailedMessage) : base(message)
-    {
-        HttpStatusCode = httpStatusCode;
-        ErrorMessages = new List<string> { detailedMessage };
-    }
-
-    public ApiException(HttpStatusCode httpStatusCode, string message, IEnumerable<string> errorMessages) : base(message)
-    {
-        HttpStatusCode = httpStatusCode;
-        ErrorMessages = errorMessages;
-    }
-
-    protected ApiException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-        HttpStatusCode = HttpStatusCode.InternalServerError;
-        ErrorMessages = new List<string>();
-    }
-
     public HttpStatusCode HttpStatusCode { get; set; }
 
     public IEnumerable<string> ErrorMessages { get; set; }

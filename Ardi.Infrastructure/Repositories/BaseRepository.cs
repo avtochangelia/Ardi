@@ -32,19 +32,10 @@ public class BaseRepository<TAggregateRoot>(EFDbContext efDbContext, DapperDbCon
         return await _dapperContext.QueryFirstOrDefaultAsync<TAggregateRoot>(query, new { Id = id });
     }
 
-    public async Task<IEnumerable<TAggregateRoot>> QueryAsync(string? query = null)
+    public async Task<IEnumerable<TAggregateRoot>> QueryAsync()
     {
-        query ??= QueryBuilder<TAggregateRoot>.GetAllQuery();
+        var query = QueryBuilder<TAggregateRoot>.GetAllQuery();
         var result = await _dapperContext.QueryAsync<TAggregateRoot>(query);
-        return result ?? Enumerable.Empty<TAggregateRoot>();
-    }
-
-    public async Task<IEnumerable<TAggregateRoot>> QueryAsync<T, TFirst, TSecond>(
-        string query,
-        Func<TAggregateRoot, TFirst, TSecond, TAggregateRoot> map,
-        string splitOn)
-    {
-        var result = await _dapperContext.QueryAsync(query, map, splitOn);
         return result ?? Enumerable.Empty<TAggregateRoot>();
     }
 }

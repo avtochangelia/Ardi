@@ -1,5 +1,4 @@
 ﻿using Ardi.Application.PolicyHolderManagement.Dto;
-using Ardi.Application.Shared.QueryBuilders;
 using Ardi.Domain.PolicyHolderManagement;
 using Ardi.Domain.PolicyHolderManagement.Repositories;
 using Ardi.Domain.PolicyManagement;
@@ -15,21 +14,7 @@ public class GetPolicyHoldersHandler(IPolicyHolderRepository policyHolderReposit
 
     public async Task<GetPolicyHoldersResponse> Handle(GetPolicyHoldersRequest request, CancellationToken cancellationToken)
     {
-        var query = PolicyHolderQueryBuilder.BuildQueryForActivePolicies();
-
-        var policyHolders = await _policyHolderRepository.QueryAsync<PolicyHolder, Policy, Product>(
-            query,
-            (policyHolder, policy, product) =>
-            {
-                if (policy != null)
-                {
-                    policyHolder.Policies ??= new List<Policy>();
-                    policyHolder.Policies.Add(policy);
-                    policy.Product = product;
-                }
-                return policyHolder;
-            },
-            splitOn: "Id,Id");
+        var policyHolders = await _policyHolderRepository.GetAllWithPoliciesAndProductsAsync();
 
         var total = policyHolders.Count();
 

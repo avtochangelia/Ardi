@@ -32,10 +32,5 @@ public class ValidationException : ApiException
         }
     }
 
-    protected ValidationException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
-
     public IDictionary<string, string[]> Failures { get; }
 }

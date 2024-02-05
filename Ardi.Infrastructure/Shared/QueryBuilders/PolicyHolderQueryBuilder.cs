@@ -3,7 +3,7 @@ using Ardi.Domain.PolicyManagement;
 using Ardi.Domain.ProductManagement;
 using Ardi.Shared.Utilities;
 
-namespace Ardi.Application.Shared.QueryBuilders;
+namespace Ardi.Infrastructure.Shared.QueryBuilders;
 
 internal static class PolicyHolderQueryBuilder
 {
@@ -12,7 +12,6 @@ internal static class PolicyHolderQueryBuilder
         return $@"SELECT ph.*, p.*, pr.*
                   FROM {Pluralizer<PolicyHolder>.PluralizedTypeName} ph
                   LEFT JOIN {Pluralizer<Policy>.PluralizedTypeName} p ON ph.Id = p.PolicyholderId
-                  LEFT JOIN {Pluralizer<Product>.PluralizedTypeName} pr ON p.ProductId = pr.Id
-                  WHERE p.Status = 0";
+                  LEFT JOIN {Pluralizer<Product>.PluralizedTypeName} pr ON p.ProductId = pr.Id";
     }
 }
